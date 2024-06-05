@@ -1,0 +1,44 @@
+[
+    {
+        "word": "test",
+        "letters": 4,
+        "consonants": 3,
+        "vowels": 1
+    },
+    {
+        "word": "developer",
+        "letters": 9,
+        "consonants": 5,
+        "vowels": 4
+    },
+    {
+        "word": "programer",
+        "letters": 9,
+        "consonants": 6,
+        "vowels": 3
+    },
+    {
+        "word": "rammstein",
+        "letters": 9,
+        "consonants": 6,
+        "vowels": 3
+    },
+    {
+        "word": "marko",
+        "letters": 5,
+        "consonants": 3,
+        "vowels": 2
+    },
+    {
+        "word": "ispit",
+        "letters": 5,
+        "consonants": 3,
+        "vowels": 2
+    },
+    {
+        "word": "algebra",
+        "letters": 7,
+        "consonants": 4,
+        "vowels": 3
+    }
+]
