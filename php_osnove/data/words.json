@@ -40,5 +40,11 @@
         "letters": 7,
         "consonants": 4,
         "vowels": 3
+    },
+    {
+        "word": "profesor",
+        "letters": 8,
+        "vowels": 3,
+        "consonants": 5
     }
 ]

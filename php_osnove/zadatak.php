@@ -11,10 +11,6 @@
     
 <div style="display: flex; justify-content: center; gap: 10%; flex-direction: row-reverse";>
 <?php
-// Pročitajte JSON fajl iz direktorija 'data'
-$json = file_get_contents(__DIR__ . '/data/words.json');
-$wordsArray = json_decode($json, true);
-
 // Funkcija za brojanje samoglasnika i suglasnika u riječi
 function countVowelsAndConsonants($word) {
     $vowels = 0;
@@ -31,6 +27,11 @@ function countVowelsAndConsonants($word) {
     return array($vowels, $consonants);
 }
 
+// Pročitajte JSON fajl iz direktorija 'data'
+$jsonFilePath = __DIR__ . '/data/words.json';
+$json = file_get_contents($jsonFilePath);
+$wordsArray = json_decode($json, true);
+
 $searchWords = [];
 
 // Dodavanje nove riječi iz forme
@@ -41,6 +42,29 @@ if (isset($_POST['word']) && !empty($_POST['word'])) {
     }
     if (!in_array($newWord, $searchWords)) {
         $searchWords[] = $newWord;
+    }
+
+    // Dodavanje nove riječi u words.json ako već ne postoji
+    $wordExists = false;
+    foreach ($wordsArray as $wordData) {
+        if (strtolower($wordData['word']) == $newWord) {
+            $wordExists = true;
+            break;
+        }
+    }
+
+    if (!$wordExists) {
+        list($vowels, $consonants) = countVowelsAndConsonants($newWord);
+        $newWordData = array(
+            "word" => $newWord,
+            "letters" => strlen($newWord),
+            "vowels" => $vowels,
+            "consonants" => $consonants
+        );
+        $wordsArray[] = $newWordData;
+
+        // Ažuriraj words.json
+        file_put_contents($jsonFilePath, json_encode($wordsArray, JSON_PRETTY_PRINT));
     }
 }
 
@@ -63,12 +87,11 @@ foreach ($searchWords as $searchWord) {
     }
 
     if ($result) {
-        list($vowels, $consonants) = countVowelsAndConsonants($result['word']);
         echo "<tr>";
         echo "<td>{$result['word']}</td>";
         echo "<td>{$result['letters']}</td>";
-        echo "<td>$vowels</td>";
-        echo "<td>$consonants</td>";
+        echo "<td>{$result['vowels']}</td>";
+        echo "<td>{$result['consonants']}</td>";
         echo "</tr>";
     } else {
         echo "<tr>";
@@ -85,7 +108,6 @@ echo "</table>";
 <form action="zadatak.php?searchWords=<?php echo implode(',', $searchWords); ?>" method="POST">
     <label for="word">Upišite riječ</label><br>
     <input type="text" id="word" name="word"><br><br>
-    
     <input type="submit" value="Pošalji">
 </form>
 </div>   
