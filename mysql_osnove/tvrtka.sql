@@ -67,3 +67,21 @@ JOIN department d ON e.employee_ID = d.manager_ID;
 
 -- Calculate the average salary of all employees
 SELECT AVG(salary) AS AverageSalary FROM employee;
+
+DROP PROCEDURE IF EXISTS CalculateAverageSalary;
+
+-- Create the procedure
+DELIMITER //
+
+CREATE PROCEDURE CalculateAverageSalary()
+BEGIN
+    DECLARE avgSalary DECIMAL(10, 2);
+
+    -- Calculate the average salary
+    SELECT AVG(salary) INTO avgSalary FROM employee;
+
+    -- Display the average salary
+    SELECT avgSalary AS AverageSalary;
+END //
+
+DELIMITER ;
